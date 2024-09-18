@@ -25,7 +25,7 @@
             if(strlen($pword) >= 8){
                 $flag++;
             }
-            else {
+            else {//
                 echo "Your password is too short. Must be at least 8 characters. <br>";
             }
             /*if (preg_match('/[^£$%&*()}{@#~?><,|=_+¬-]/', $pword)){
