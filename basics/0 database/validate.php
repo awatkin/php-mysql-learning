@@ -3,6 +3,7 @@
 include "db_connect.php";
 
 try {
+    session_start();
     $usnm = $_POST['uname'];
     $pswd = $_POST['password'];
 
@@ -10,16 +11,17 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(1,$usnm);
     $stmt->execute();
-
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
     if($result){
+        $_SESSION["ssnlogin"] = true;
+        $_SESSION["uname"] = $usnm;
         $password = $result["password"];
-
         if (password_verify($pswd, $password)) {
-            echo "Welcome " . $usnm;
+            header("location:prof.php");
+            exit();
         } else{
-           echo "invalid password";
+            session_destroy();
+            echo "invalid password";
         }
 
     } else {
