@@ -15,12 +15,12 @@
 
 
 <?php
-$result = match($option) {
-    1 => "Barry",
-    2, 3 => "Steven",
-};
 
-echo $result;
+
+$stock = 0;
+
+$message = $stock>0 ? 'in Stock': 'Sold out';
+echo $message;
 
 ?>
 

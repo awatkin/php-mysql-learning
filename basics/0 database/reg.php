@@ -17,17 +17,24 @@ if($pswd!=$cpswd){
     header("refresh:5; url=index.html");
     echo"Your passwords do not match";
 } else {
-    $hpswd = password_hash("rasmuslerdorf", PASSWORD_DEFAULT);
-    $sql = "INSERT INTO mem (username, password, fname, sname, email) VALUES (?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);;
-    mysqli_stmt_bind_param($stmt, "sssss", $usnm, $hpswd, $fname, $sname, $email);
-    mysqli_stmt_execute($stmt);
+    try {
 
-    if (mysqli_stmt_error($stmt)) {
-        echo "Error: " . mysqli_stmt_error($stmt);
-    } else {
-        header("refresh:5; url=login.html");
-        echo "New records created successfully";
+        $hpswd = password_hash($pswd, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO mem (uname, password, fname, sname, email) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(1,$usnm);
+        $stmt->bindParam(2,$hpswd);
+        $stmt->bindParam(3,$fname);
+        $stmt->bindParam(4,$sname);
+        $stmt->bindParam(5,$email);
+
+        $stmt->execute();
+        echo "Successfully registered";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
+
+
 }
 ?>

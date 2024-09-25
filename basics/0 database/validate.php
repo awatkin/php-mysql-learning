@@ -5,13 +5,29 @@ include "db_connect.php";
 try {
     $usnm = $_POST['uname'];
     $pswd = $_POST['password'];
-    $sql = "SELECT username, password FROM mem WHERE username = ?";
-    $stmt = mysqli_prepare($conn, $sql);;
-    mysqli_stmt_bind_param($stmt, "s", $usnm);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
 
-    echo $result;
+    $sql = "SELECT password FROM mem WHERE uname = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(1,$usnm);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($result){
+        $password = $result["password"];
+
+        if (password_verify($pswd, $password)) {
+            echo "Welcome " . $usnm;
+        } else{
+           echo "invalid password";
+        }
+
+    } else {
+        echo "User not found";
+    }
+
+
+
 
 } catch (Exception $e) {
     echo $e;
