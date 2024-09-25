@@ -18,19 +18,38 @@ if($pswd!=$cpswd){
     echo"Your passwords do not match";
 } else {
     try {
-
-        $hpswd = password_hash($pswd, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO mem (uname, password, fname, sname, email) VALUES (?, ?, ?, ?, ?)";
+        $sql = "SELECT uname FROM mem WHERE uname = ?";
         $stmt = $conn->prepare($sql);
-
         $stmt->bindParam(1,$usnm);
-        $stmt->bindParam(2,$hpswd);
-        $stmt->bindParam(3,$fname);
-        $stmt->bindParam(4,$sname);
-        $stmt->bindParam(5,$email);
-
         $stmt->execute();
-        echo "Successfully registered";
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($result){
+           header("refresh:5; url=index.html");
+           echo "User Exists, try another name";
+
+        } else {
+            try {
+
+                $hpswd = password_hash($pswd, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO mem (uname, password, fname, sname, email) VALUES (?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+
+                $stmt->bindParam(1,$usnm);
+                $stmt->bindParam(2,$hpswd);
+                $stmt->bindParam(3,$fname);
+                $stmt->bindParam(4,$sname);
+                $stmt->bindParam(5,$email);
+
+                $stmt->execute();
+                header("refresh:5; url=login.html");
+                echo "Successfully registered";
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+        }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

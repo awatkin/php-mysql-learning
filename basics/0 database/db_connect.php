@@ -1,9 +1,11 @@
 <?php
 $servername = "localhost";
-$username = "membs";
+//inschool user
+//$username = "membs";
+$username = "membss";
 $password = "password1234";
-$dbname = "membs";
-
+//$dbname = "membs";
+$dbname = "membss";
 
 try {
     $conn = new PDO("mysql:host=$servername;port=3306;dbname=$dbname", $username, $password);
