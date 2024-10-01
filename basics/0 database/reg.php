@@ -15,7 +15,7 @@ if($pswd!=$cpswd){
     echo"Your passwords do not match";
 }elseif(strlen($pswd)<8){
     header("refresh:5; url=index.html");
-    echo"Your passwords do not match";
+    echo"Your passwords not long enough";
 } else {
     try {
         $sql = "SELECT uname FROM mem WHERE uname = ?";

@@ -7,7 +7,7 @@ try {
     $usnm = $_POST['uname'];
     $pswd = $_POST['password'];
 
-    $sql = "SELECT password FROM mem WHERE uname = ?";
+    $sql = "SELECT * FROM mem WHERE uname = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(1,$usnm);
     $stmt->execute();
@@ -15,7 +15,9 @@ try {
     if($result){
         $_SESSION["ssnlogin"] = true;
         $_SESSION["uname"] = $usnm;
+        $_SESSION["userid"] = $result["userid"];
         $password = $result["password"];
+        echo $_SESSION["userid"];
         if (password_verify($pswd, $password)) {
             header("location:prof.php");
             exit();

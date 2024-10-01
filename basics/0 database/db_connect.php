@@ -1,12 +1,17 @@
 <?php
 $servername = "localhost";
+
 //inschool user
 $username = "membs";
+
 // little laptop
 //$username = "membss";
+
 $password = "password1234";
+
 //inschool at home
 $dbname = "membs";
+
 //little laptop
 //$dbname = "membss";
 
