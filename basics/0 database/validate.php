@@ -17,7 +17,6 @@ try {
         $_SESSION["uname"] = $usnm;
         $_SESSION["userid"] = $result["userid"];
         $password = $result["password"];
-        echo $_SESSION["userid"];
         if (password_verify($pswd, $password)) {
             header("location:prof.php");
             exit();

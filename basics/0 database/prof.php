@@ -10,6 +10,7 @@ if(!$_SESSION["ssnlogin"]){
     echo"You are not currently logged in, redirecting to login page";
 }else{
     $usnm = $_SESSION['uname'];
+    $userid = $_SESSION['userid'];
     echo "<title>". $usnm. "'s profile page</title>";
 }
 
@@ -28,11 +29,12 @@ Here is your data
 
 include "db_connect.php";
 
-$sql = "SELECT * FROM mem WHERE uname = ?";
+
+$sql = "SELECT * FROM mem WHERE userid = ?";
 
 $stmt = $conn->prepare($sql);
 
-$stmt->bindParam(1,$usnm);
+$stmt->bindParam(1,$userid);
 
 $stmt->execute();
 
@@ -50,7 +52,7 @@ foreach($result as $key=>$value){
     }
 
 }
-echo "<input type='submit'' value='Update'";
+echo "<input type='submit'' value='Update'>";
 ?>
 
 </body>
