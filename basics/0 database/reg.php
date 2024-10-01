@@ -8,6 +8,7 @@ $cpswd = $_POST['cpassword']; //collects data from cloned password
 $fname = $_POST['fname'];  //collects data for firstname
 $sname = $_POST['sname']; //collects data for surname
 $email = $_POST['email']; //collects data for email
+$signupdate = date("y-m-d");
 
 
 if($pswd!=$cpswd){  //checks if the sent passwords dont match
@@ -33,7 +34,7 @@ if($pswd!=$cpswd){  //checks if the sent passwords dont match
             try {  //try this code
 
                 $hpswd = password_hash($pswd, PASSWORD_DEFAULT);  //has the password
-                $sql = "INSERT INTO mem (uname, password, fname, sname, email) VALUES (?, ?, ?, ?, ?)";  //prepare the sql to be sent
+                $sql = "INSERT INTO mem (uname, password, fname, sname, email, signup) VALUES (?, ?, ?, ?, ?, ?)";  //prepare the sql to be sent
                 $stmt = $conn->prepare($sql); //prepare to sql
 
                 $stmt->bindParam(1,$usnm);  //bind parameters for security
@@ -41,6 +42,7 @@ if($pswd!=$cpswd){  //checks if the sent passwords dont match
                 $stmt->bindParam(3,$fname);
                 $stmt->bindParam(4,$sname);
                 $stmt->bindParam(5,$email);
+                $stmt->bindParam(6,$signupdate);
 
                 $stmt->execute();  //run the query to insert
                 header("refresh:5; url=login.html"); //confirm and redirect
