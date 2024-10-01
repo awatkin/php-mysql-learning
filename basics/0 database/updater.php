@@ -12,8 +12,7 @@ $susnm = $_SESSION["uname"]; //pulls the current username from session variables
 
 try {  // attempts this code
 
-    if ($susnm!=$usnm) {
-        echo "usernames are different";
+    if ($susnm!=$usnm) { //if the username stored and typed dont match then do this
         $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from database that match entered
         $stmt = $conn->prepare($sql);  //perpares the statement
         $stmt->bindParam(1,$usnm);  // secures this parameters, good coding method
@@ -21,30 +20,30 @@ try {  // attempts this code
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);  //fetches the result
 
-        if($result){  //
-            header("refresh:5; url=prof.php");
+        if($result){  //if there is a result
+            header("refresh:5; url=prof.php");  //error message and redirect
             echo "Usernames Exists, try another name";
-            exit();
+            exit();  // this was needed as below code still executed... which is bad
     }
 
 
-    $sql = "UPDATE mem SET uname=?, fname=?, sname=?, email=? WHERE userid = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1,$usnm);
+    $sql = "UPDATE mem SET uname=?, fname=?, sname=?, email=? WHERE userid = ?";  //sets up the statement
+    $stmt = $conn->prepare($sql);  //prepares it
+    $stmt->bindParam(1,$usnm);  //binding all the parameters
     $stmt->bindParam(2,$fname);
     $stmt->bindParam(3,$sname);
     $stmt->bindParam(4,$email);
     $stmt->bindParam(5,$userid);
-    $stmt->execute();
-    $_SESSION["uname"]=$usnm;
-    header("refresh:5; url=prof.php");
+    $stmt->execute();  //execute the code
+    $_SESSION["uname"]=$usnm;  //update session variable
+    header("refresh:5; url=prof.php");  //redirect with confirmation message
     echo "Details updated successfully";
 }
 
 
 
 
-} catch(PDOException $e) {
+} catch(PDOException $e){   //catch error if one occurs
     header("refresh:5; url=prof.php");
     echo $e->getMessage();
 
