@@ -7,7 +7,11 @@ $usnm = $_POST['uname'];  // pulls data from posted form
 $fname = $_POST['fname']; // pulls data from posted form
 $sname = $_POST['sname']; // pulls data from posted form
 $email = $_POST['email']; // pulls data from posted form
-$us     $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from database that match entered
+$usnm = $_SESSION['uname'];  //copies session name
+$userid = $_SESSION['userid']; //brings in the session id
+
+try {
+        $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from database that match entered
         $stmt = $conn->prepare($sql);  //perpares the statement
         $stmt->bindParam(1, $usnm);  // secures this parameters, good coding method
         $stmt->execute();  //executes the code
@@ -19,7 +23,7 @@ $us     $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from d
             echo "Usernames Exists, try another name";
             exit();  // this was needed as below code still executed... which is bad
         }
-    }
+
 
     $sql = "UPDATE mem SET uname=?, fname=?, sname=?, email=? WHERE userid = ?";  //sets up the statement
     $stmt = $conn->prepare($sql);  //prepares it

@@ -57,7 +57,7 @@ try {  //try this code, catch errors
         } else{
 
             session_destroy(); //if failed, kills session abnd error message
-
+            header("refresh:4; url=login.html");
             echo "invalid password";
         }
 

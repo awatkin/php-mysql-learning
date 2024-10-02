@@ -58,6 +58,8 @@ foreach($result as $key=>$value){  //runs loop to go through each of the returne
 }
 echo "<input type='submit'' value='Update'>";  //outputs button to allow update to be called
 
+echo "<br><br>";
+echo "<a href='pwchange.html'>Change Password</a>";
 
 echo "</body>";
 echo"</html>";
