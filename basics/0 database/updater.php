@@ -7,13 +7,7 @@ $usnm = $_POST['uname'];  // pulls data from posted form
 $fname = $_POST['fname']; // pulls data from posted form
 $sname = $_POST['sname']; // pulls data from posted form
 $email = $_POST['email']; // pulls data from posted form
-$userid = $_SESSION["userid"]; //pulls data from session variable
-$susnm = $_SESSION["uname"]; //pulls the current username from session variables
-
-try {  // attempts this code
-    if ($susnm!=$usnm) { //if the username stored and typed dont match then do this
-        echo "usernames triggered";
-        $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from database that match entered
+$us     $sql = "SELECT * FROM mem WHERE uname = ?";  // Selects usernames from database that match entered
         $stmt = $conn->prepare($sql);  //perpares the statement
         $stmt->bindParam(1, $usnm);  // secures this parameters, good coding method
         $stmt->execute();  //executes the code
