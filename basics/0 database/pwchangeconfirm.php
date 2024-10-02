@@ -18,8 +18,6 @@ if(!$_SESSION["ssnlogin"]){  //if no login has been completed
     $npassword1 = $_POST['npassword1'];
     $npassword2 = $_POST['npassword2'];
 
-
-
 }
 
 
@@ -37,7 +35,7 @@ $stmt->execute();  // runs the query
 $result = $stmt->fetch(PDO::FETCH_ASSOC);  //gets the result
 
 if(!password_verify($cpassword, $result['password'])){
-    session_destroy();
+
     $act = "apc";
     $logtime = time();
 
@@ -49,8 +47,10 @@ if(!password_verify($cpassword, $result['password'])){
     $stmt->bindParam(3, $logtime);
 
     $stmt->execute();  //run the query to insert
+    session_destroy(); //kill session as dont know password
     header("refresh:5;url=login.html");
     echo "Incorrect current password given!";
+
 } elseif($npassword1 != $npassword2){
     $act = "apc";
     $logtime = time();
@@ -63,10 +63,10 @@ if(!password_verify($cpassword, $result['password'])){
     $stmt->bindParam(3, $logtime);
 
     $stmt->execute();  //run the query to insert
-    header("refresh:5;url=pwchange.html");
+    header("refresh:5;url=pwchange.php");
     echo "New passwords do not match!";
 }else{
-    $hpswd = password_hash($pswd, PASSWORD_DEFAULT);  //has the password
+    $hpswd = password_hash($npassword1, PASSWORD_DEFAULT);  //has the password
     $sql = "UPDATE mem SET password=? WHERE userid = ?";  //sets up the statement
     $stmt = $conn->prepare($sql);  //prepares it
     $stmt->bindParam(1,$hpswd);  //binding all the parameters
@@ -84,8 +84,9 @@ if(!password_verify($cpassword, $result['password'])){
     $stmt->bindParam(3, $logtime);
 
     $stmt->execute();  //run the query to insert
-    header("refresh:5; url=prof.php");  //redirect with confirmation message
-    echo "Password updated successfully";
+    session_destroy();
+    header("refresh:5; url=login.html");  //redirect with confirmation message
+    echo "Password updated successfully, login again!";
 
 }
 

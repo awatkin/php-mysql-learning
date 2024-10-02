@@ -4,7 +4,6 @@
 <head> <!--opens the start of the head section-->
 
     <?php
-    session_start();
 
     session_start();  //starts a sessions which is needed to stay logged in
     if(!$_SESSION["ssnlogin"]){  //if no login has been completed
