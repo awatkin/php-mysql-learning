@@ -3,11 +3,17 @@ include "db_connect.php"; //brings in the database connect
 session_start();
 
 echo"<!DOCTYPE html>";
+
 echo "<html lang='en'>";
+
     echo "<head>";
+
         echo"<link rel='stylesheet' href='styles.css'>";
+
         echo"<title> Watkin's ToDo List website</title>";
+
     echo "</head>";
+
     echo "<body>";
 
         echo "<div id='container'>";
@@ -24,24 +30,25 @@ echo "<html lang='en'>";
 
             echo "<li> Home </li>";
 
-            if (!$_SESSION["ssnlogin"]) {
-                echo "<li> Login </li>";
-                echo "<li> Register </li>";
+            if (empty($_SESSION["ssnlogin"])) {
+                echo "<li><a href='login.php'> Login </a></li>";
+                echo "<li><a href='register.php'> Register </a></li>";
             }
 
-            if ($_SESSION["ssnlogin"]) {
-                echo "<li> Profile </li>";
-                echo "<li> Logout </li>";
+            elseif ($_SESSION["ssnlogin"]) {
+                echo "<li><a href='profile.php'> Profile </a></li>";
+                echo "<li><a href='logout.php'> Logout </a></li>";
             }
 
-        echo "</ul>";
+
+echo "</ul>";
 
         echo "</div>";
 
         echo "<div id='content'>";
 
 
-        $signupdate = date("y-m-d");
+        $signupdate = date("U");
 
 
         if($pswd!=$cpswd){  //checks if the sent passwords dont match

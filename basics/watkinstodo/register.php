@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION["ssnlogin"]) {
+if (isset($_SESSION["ssnlogin"])) {
     header("location:profile.php");
 } else {
 
@@ -31,16 +31,16 @@ echo "<div id='navbar'>";
 
 echo "<ul id='menu'>";
 
-echo "<li> Home </li>";
+echo "<li><a href='index.php'> Home </a></li>";
 
-if (!$_SESSION["ssnlogin"]) {
-    echo "<li> Login </li>";
-    echo "<li> Register </li>";
+if (empty($_SESSION["ssnlogin"])) {
+    echo "<li><a href='login.php'> Login </a></li>";
+    echo "<li><a href='register.php'> Register </a></li>";
 }
 
-if ($_SESSION["ssnlogin"]) {
-    echo "<li> Profile </li>";
-    echo "<li> Logout </li>";
+elseif ($_SESSION["ssnlogin"]) {
+    echo "<li><a href='profile.php'> Profile </a></li>";
+    echo "<li><a href='logout.php'> Logout </a></li>";
 }
 
 echo "</ul>";
@@ -53,11 +53,13 @@ echo "<h4> Register here for the Watkin's ToDo Website</h4>";
 
 echo "<br>";
 
-echo "<form method='post' action='reg.php'>";
+echo "<form method='post' action='regconfirm.php'>";
 
 echo "<input type='text' name='username' placeholder='Username' required><br>";
 
 echo "<input type='password' name='password' placeholder='Password' required><br>";
+
+echo "<input type='password' name='cpassword' placeholder='Confirm Password' required><br>";
 
 echo "<input type='text' name='fname' placeholder='First Name' required><br>";
 
@@ -66,6 +68,8 @@ echo "<input type='text' name='sname' placeholder='Surname' required><br>";
 echo "<input type='text' name='email' placeholder='Email' required><br>";
 
 echo "<input type='submit' name='submit' value='Register'>";
+
+echo "<br><br>";
 
 echo "</div>";
 
