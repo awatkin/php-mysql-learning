@@ -22,7 +22,7 @@ echo "<body>";
 
 
 
-echo "Welcome ".$usnm. " To your profile page";  //welcome comment to the page
+echo "Welcome ".$usnm. " To your profile page";  //a welcome comment to the page
 
 echo "<br><br>";
 echo "Here is your data";
@@ -60,6 +60,26 @@ echo "<input type='submit'' value='Update'>";  //outputs button to allow update 
 
 echo "<br><br>";
 echo "<a href='pwchange.php'>Change Password</a>";
+
+echo "<br><br>";
+
+echo "<h3> Your keystats</h3><br>";
+
+echo "<b> You signed up to the system on: ".$result['signup']."</b><br>";
+
+
+
+$stmt->bindParam(1,$userid);  //binds the parameters ready for execute
+$stmt->bindParam(2,$act);
+
+$stmt->execute();  // runs the query
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);  //gets the result
+
+$num =count($result);
+$num=$num-1;
+$out = $result[$num];
+
+echo "Your previous login was on : ".$out."<br>";
 
 echo "</body>";
 echo"</html>";

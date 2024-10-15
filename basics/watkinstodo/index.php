@@ -27,16 +27,16 @@ echo "<head>";
 
         echo "<ul id='menu'>";
 
-            echo "<li> Home </li>";
+            echo "<a href='index.php'><li> Home </li></a>";
 
-            if (!$_SESSION["ssnlogin"]) {
-                echo "<li> Login </li>";
-                echo "<li> Register </li>";
+            if (empty($_SESSION["ssnlogin"])) {
+                echo "<a href='login.php'><li> Login </li></a>";
+                echo "<a href='register.php'><li> Register </li></a>";
             }
 
-            if ($_SESSION["ssnlogin"]) {
-                echo "<li> Profile </li>";
-                echo "<li> Logout </li>";
+            elseif ($_SESSION["ssnlogin"]) {
+                echo "<a href='profile.php' <li> Profile </li></a>";
+                echo "<a href='logout.php'<li> Logout </li></a>";
             }
 
         echo "</ul>";
