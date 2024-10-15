@@ -6,18 +6,18 @@ than just dumping it in each file */
 $servername = "localhost";  //sets servername
 
 //inschool user
-//$username = "membs";
+$username = "membs";
 
 // little laptop
-$username = "membss";
+//$username = "membss";
 
 $password = "password1234";  //password for database useraccount
 
 //inschool at home
-//$dbname = "membs";
+$dbname = "membs";
 
 //little laptop
-$dbname = "membss";  //database name to connect to
+//$dbname = "membss";  //database name to connect to
 
 try {  //attempt this block of code, catching an error
     $conn = new PDO("mysql:host=$servername;port=3306;dbname=$dbname", $username, $password);  // creates a PDO connection to the database
