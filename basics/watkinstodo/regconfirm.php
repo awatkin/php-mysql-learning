@@ -1,60 +1,16 @@
 <?php
 include "db_connect.php"; //brings in the database connect
-session_start();
-
-//echo"<!DOCTYPE html>";
-//
-//echo "<html lang='en'>";
-//
-//    echo "<head>";
-//
-//        echo"<link rel='stylesheet' href='styles.css'>";
-//
-//        echo"<title> Watkin's ToDo List website</title>";
-//
-//    echo "</head>";
-//
-//    echo "<body>";
-//
-//        echo "<div id='container'>";
-//
-//        echo "<div id='title'>";
-//
-//            echo "<h3 id='banner'>Watkin's ToDo List</h3>";
-//
-//        echo "</div>";
-//
-//        echo "<div id='navbar'>";
-//
-//            echo "<ul id='menu'>";
-//
-//            echo "<li> Home </li>";
-//
-//            if (empty($_SESSION["ssnlogin"])) {
-//                echo "<li><a href='login.php'> Login </a></li>";
-//                echo "<li><a href='register.php'> Register </a></li>";
-//            }
-//
-//            elseif ($_SESSION["ssnlogin"]) {
-//                echo "<li><a href='profile.php'> Profile </a></li>";
-//                echo "<li><a href='logout.php'> Logout </a></li>";
-//            }
-//
-//
-//echo "</ul>";
-//
-//        echo "</div>";
-//
-//        echo "<div id='content'>";
-
+session_start(); //connects to sessions if available, probs not needed.
 
         $signupdate = date("U");
 
         if($_POST['password']!=$_POST['cpassword']){  //checks if the sent passwords don't match
-            header("refresh:5; url=index.html"); //gives error message and reroutes
+            header("refresh:5; url=index.php"); //gives error message and reroutes
+            echo "<link rel='stylesheet' href='styles.css'>";
             echo"Your passwords do not match";
         }elseif(strlen($_POST['password'])<8){  //if password under 8 chars
-            header("refresh:5; url=index.html");  //redirect with error message
+            header("refresh:5; url=index.php");  //redirect with error message
+            echo "<link rel='stylesheet' href='styles.css'>";
             echo"Your passwords not long enough";
         } else {
             try {  //otherwise if everything passes, do this stuff
@@ -66,8 +22,9 @@ session_start();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC); // gets results
 
                 if($result){  // if there is a result, which is bad in this case, because username exists
-                    header("refresh:5; url=index.html"); //error and redirect
-                    echo "User Exists, try another name";
+                    header("refresh:5; url=index.php"); //error and redirect
+                    echo "<link rel='stylesheet' href='styles.css'>"; // adds styling to the page
+                    echo "User Exists, try another name";  //outputs suitable error message
 
                 } else { //otherwise
                     try {  //try this code
@@ -84,7 +41,7 @@ session_start();
                         $stmt->bindParam(6,$signupdate);
 
                         $stmt->execute();  //run the query to insert
-                        header("refresh:5; url=login.html"); //confirm and redirect
+                        header("refresh:5; url=login.php"); //confirm and redirect
                         echo "<link rel='stylesheet' href='styles.css'>";
                         echo "Successfully registered";
                     } catch (PDOException $e) { //catch error
@@ -98,12 +55,5 @@ session_start();
 
 
         }
-        echo "</div>";
-
-        echo "</div>";
-
-        echo "</body>";
-
-        echo "</html>";
 
 ?>
