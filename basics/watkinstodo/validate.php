@@ -8,9 +8,7 @@ try {  //try this code, catch errors
 
     $usnm = $_POST['username']; //copy username from post data
 
-    $pswd = $_POST['password']; // copy the password from post data
-
-    $sql = "SELECT * FROM mem WHERE uname = ?"; //set up the sql statement
+    $sql = "SELECT * FROM user WHERE username = ?"; //set up the sql statement
 
     $stmt = $conn->prepare($sql); //prepares
 
@@ -20,26 +18,21 @@ try {  //try this code, catch errors
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);  //brings back results
 
-
     if($result){  // if there is a result returned
 
         $_SESSION["username"] = $_POST['username'];
 
+        $_SESSION["fname"] = $result["fname"];
+
         $_SESSION["userid"] = $result["userid"];
 
-        if (password_verify($pswd, $password)) { // verifies the password is matched
+        if (password_verify($_POST["password"], $result["password"])) { // verifies the password is matched
 
             $_SESSION["ssnlogin"] = true;  // sets up the session variables
-
-            $_SESSION["username"] = $_POST['username'];
-
-            $_SESSION["userid"] = $result["userid"];
 
             $act = "log";
 
             $logtime = date("U");
-
-            $password = $result["password"];  //brings password from result of sql
 
             $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
 
@@ -59,13 +52,31 @@ try {  //try this code, catch errors
 
         } else{
 
+            $act = "flog";  //failed login abbreviated
+
+            $logtime = date("U");  // captures epoch time
+
+            $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
+
+            $stmt = $conn->prepare($sql); //prepare to sql
+
+            $stmt->bindParam(1,$_SESSION["userid"]);  //bind parameters for security
+
+            $stmt->bindParam(2, $logtime);
+
+            $stmt->bindParam(3,$act);
+
+            $stmt->execute();  //run the query to insert
+
             session_destroy(); //if failed, kills session abnd error message
-            header("refresh:4; url=login.html");
+            header("refresh:4; url=login.php");
+            echo "<link rel='stylesheet' href='styles.css'>";
             echo "invalid password";
         }
 
     } else {
-
+        header("refresh:4; url=login.php");
+        echo "<link rel='stylesheet' href='styles.css'>";
         echo "User not found";
 
     }

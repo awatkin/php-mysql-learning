@@ -12,9 +12,17 @@ body {
     border: 1px black solid;
 }
 
+#listcontent {
+    text-align: left;
+}
+
 h3 {
     color: cornsilk;
     font-size: 50pt;
+}
+
+h4 {
+    color: cornsilk;
 }
 
 ul#menu li{

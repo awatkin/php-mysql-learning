@@ -36,6 +36,7 @@ echo "<head>";
 
             elseif ($_SESSION["ssnlogin"]) {
                 echo "<a href='profile.php' <li> Profile </li></a>";
+                echo "<a href='list.php'><li> Lists </li></a>";
                 echo "<a href='logout.php'<li> Logout </li></a>";
             }
 

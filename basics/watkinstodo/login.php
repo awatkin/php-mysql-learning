@@ -15,7 +15,7 @@ echo "</head>";
 
 echo "<body>";
 
-echo "<div id='container'>";
+echo "<div id='list container'>";
 
 echo "<div id='title'>";
 
@@ -55,7 +55,7 @@ echo "<input type='text' name='username' placeholder='Username' required><br>";
 
 echo "<input type='password' name='password' placeholder='Password' required><br>";
 
-echo "<input type='submit' name='submit' value='Register'>";
+echo "<input type='submit' name='submit' value='Login'>";
 
 echo "<br><br>";
 
