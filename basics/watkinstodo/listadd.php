@@ -31,9 +31,9 @@ if(!$_POST['listname']=="") {
     $stmt->execute();  //run the query to insert
     $result = $stmt->fetch(PDO::FETCH_ASSOC);  //brings back results
 
-    $urls = "listadmin.php?lid=".$result["listid"];
+    $_SESSION["lid"] = $result["listid"];
 
-    header("refresh:3; url=$urls");
+    header("refresh:2; url=listadmin.php");
     echo "<link rel='stylesheet' href='styles.css'>";
     echo "List created";
 } else {

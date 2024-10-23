@@ -26,6 +26,8 @@ try {  //try this code, catch errors
 
         $_SESSION["userid"] = $result["userid"];
 
+        $_SESSION["lid"] = 0;
+
         if (password_verify($_POST["password"], $result["password"])) { // verifies the password is matched
 
             $_SESSION["ssnlogin"] = true;  // sets up the session variables

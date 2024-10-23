@@ -52,42 +52,32 @@ echo "<div id='container'>";
 
     echo "<div id='listcontent'>";
 
-    echo $_GET['lid'];
-
 
         echo "<hr>";
         echo "<br>";
-
-        echo "<form action='listadd.php' method='POST'>";
-/* To do:
-Add data and time picker
-convert date and time (on add task code) to epoch to start in database
-display all tasks associated with
-        */
-
-
-            echo "<label for='listname'>Add a task: </label>";
-            echo "<input type='text' name='task' placeholder='List Name'>";
-            echo "<input type='text' name='task' placeholder='List Name'>";
-            echo "<input type='submit' name='submit' value='Submit'>";
-            echo "</form>";
-
+        echo "<form action='taskadd.php' method='POST'>";
+        echo "<label for='listname'>Add a task: </label>";
+        echo "<input type='text' name='task' placeholder='List Name'>";
+        echo "<input type='datetime-local' name='datetime'>";
+        //echo "<input type='date' name='date' value='2024-10-23'>";
+        //echo "<input type='time' name='time' value='12:00'>";
+        echo "<input type='submit' name='submit' value='Submit'>";
+        echo "</form>";
         echo "<hr>";
         echo "<br>";
 
-        $sql = "SELECT listname, date FROM lists WHERE userid = ?"; //set up the sql statement
-
+        $sql = "SELECT * FROM tasks WHERE listid = ?"; //set up the sql statement
         $stmt = $conn->prepare($sql); //prepares
-
-        $stmt->bindParam(1,$_SESSION['userid']);  //binds the parameters to execute
-
+        $stmt->bindParam(1,$_GET['lid']);  //binds the parameters to execute
         $stmt->execute(); //run the sql code
-
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);  //brings back results
 
-
-        foreach ($result as $row) {
-        echo "List Name: " . $row['listname'] . " - Date: " . date("Y-m-d H:i:s", $row['date']) . "<br>";
+        if($result){
+            foreach ($result as $row) {
+                echo $row['task'] . " - Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "<br>";
+            }
+        } else {
+            echo "There are no tasks to display here right now!";
         }
 
         echo "</div>";
