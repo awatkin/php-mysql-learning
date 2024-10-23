@@ -26,7 +26,7 @@ try {  //try this code, catch errors
 
         $_SESSION["userid"] = $result["userid"];
 
-        $_SESSION["lid"] = 0;
+        $_SESSION["lid"] = -1; //-1 is used as we index from 0, so this is an easy way to check / reset the variable
 
         if (password_verify($_POST["password"], $result["password"])) { // verifies the password is matched
 
@@ -70,7 +70,7 @@ try {  //try this code, catch errors
 
             $stmt->execute();  //run the query to insert
 
-            session_destroy(); //if failed, kills session abnd error message
+            session_destroy(); //if failed, kills session and error message
             header("refresh:4; url=login.php");
             echo "<link rel='stylesheet' href='styles.css'>";
             echo "invalid password";
