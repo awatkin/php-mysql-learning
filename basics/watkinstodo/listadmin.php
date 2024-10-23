@@ -5,11 +5,8 @@ include "db_connect.php";  //connect to the database
 
 if (isset($_POST['edit']) OR strpos($_SERVER['HTTP_REFERER'], 'listadd.php') !== false) {
 
-    echo $_SESSION["lid"];
-    echo $_POST["lid"];
     if (isset($_POST['edit'])) {
             $_SESSION["lid"] = $_POST['lid'];
-            echo $_SESSION["lid"];
     }
 
     echo"<!DOCTYPE html>";
@@ -96,6 +93,9 @@ if (isset($_POST['edit']) OR strpos($_SERVER['HTTP_REFERER'], 'listadd.php') !==
     echo "</html>";
 } elseif (isset($_POST['delete'])) {
     $_SESSION['lid'] = $_POST['lid'];
+
+    header("Location: listdelete.php");
+    die();
 
 }
 
