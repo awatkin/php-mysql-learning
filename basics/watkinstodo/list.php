@@ -37,7 +37,7 @@ if (empty($_SESSION["ssnlogin"])) {
     echo "<li><a href='register.php'> Register </a></li>";
 }
 
-elseif ($_SESSION["ssnlogin"]) {
+else {
     echo " <li><a href='profile.php'> Profile </a></li>";
     echo " <li> :: </li>";
     echo "<li><a href='list.php'> Lists </a></li>";
@@ -63,11 +63,12 @@ echo "<form action='listadd.php' method='POST'>";
 echo "<label for='listname'>Create a List: </label>";
 echo "<input type='text' name='listname' placeholder='List Name'>";
 echo "<input type='submit' name='submit' value='Submit'>";
+echo "</form>";
 
 echo "<hr>";
 echo "<br>";
 
-$sql = "SELECT * FROM lists WHERE userid = ?"; //set up the sql statement
+$sql = "SELECT listname, date FROM lists WHERE userid = ?"; //set up the sql statement
 
 $stmt = $conn->prepare($sql); //prepares
 
@@ -75,11 +76,12 @@ $stmt->bindParam(1,$_SESSION['userid']);  //binds the parameters to execute
 
 $stmt->execute(); //run the sql code
 
-$result = $stmt->fetch(PDO::FETCH_ASSOC);  //brings back results
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);  //brings back results
 
-if(!$result) {  // if there is a result returned
-    echo "No lists to display";
-}
+
+    foreach ($result as $row) {
+        echo "List Name: " . $row['listname'] . " - Date: " . date("Y-m-d H:i:s", $row['date']) . "<br>";
+    }
 
 echo "</div>";
 
@@ -88,6 +90,5 @@ echo "</div>";
 echo "</body>";
 
 echo "</html>";
-
 
 ?>
