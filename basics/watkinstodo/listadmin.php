@@ -3,7 +3,12 @@ session_start();
 
 include "db_connect.php";  //connect to the database
 
-if (isset($_POST['edit']) OR strpos($_SERVER['HTTP_REFERER'], 'listadd.php') !== false) {
+if (isset($_POST['delete'])) {
+    $_SESSION['lid'] = $_POST['lid'];
+
+    header("Location: listdelete.php");
+    die();
+} else {
 
     if (isset($_POST['edit'])) {
             $_SESSION["lid"] = $_POST['lid'];
@@ -77,12 +82,47 @@ if (isset($_POST['edit']) OR strpos($_SERVER['HTTP_REFERER'], 'listadd.php') !==
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);  //brings back results
 
     if($result){
+        $working =[]; // store uncompleted tasks
+        $completed = []; // store completed tasks
+
+
+        //iterate the results to split on the page
         foreach ($result as $row) {
-            echo $row['task'] . " - Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "<br>";
+            if ($row['completed'] == 0) {
+                $working[] = $row;
+            } elseif ($row['completed'] == 1) {
+                $completed[] = $row;
+            }
         }
+
+        echo "<hr>";
+        echo "<br>";
+        echo "<h4> Current Tasks</h4>";
+        echo "<br>";
+
+            echo "<table>";
+            foreach ($working as $row) {
+
+                echo "<form action='taskadmin.php' method='POST' name='form_" . $row['taskid'] . "'>";
+
+                echo "<input type='hidden' name='lid' value='" . $row['taskid'] . "'>";
+
+                echo "<tr>";
+                echo "<td>Task: " . $row['task'] . "</td>";
+                echo "<td>Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "</td>";
+                echo "<td><input type='submit' name='complete' value='Complete'></td>";
+                echo "<td><input type='submit' name='delete' value='Delete'></td>";
+                echo "</tr>";
+
+                echo "</form>";
+            }
+
     } else {
         echo "There are no tasks to display here right now!";
     }
+
+    echo "</table><br>";
+
 
     echo "</div>";
 
@@ -91,12 +131,6 @@ if (isset($_POST['edit']) OR strpos($_SERVER['HTTP_REFERER'], 'listadd.php') !==
     echo "</body>";
 
     echo "</html>";
-} elseif (isset($_POST['delete'])) {
-    $_SESSION['lid'] = $_POST['lid'];
-
-    header("Location: listdelete.php");
-    die();
-
 }
 
 ?>
