@@ -2,6 +2,7 @@
 session_start();
 
 include "db_connect.php";
+include "auditlogger.php";
 try {
     $sql = "DELETE FROM lists WHERE listid = ?"; //set up the sql statement
 
@@ -12,6 +13,7 @@ try {
 
     if ($affectedRows > 0) {
         header("refresh:4; url=list.php");
+        auditor($_SESSION["userid"],"lde");
         echo "<link rel='stylesheet' href='styles.css'>";
         echo "List deleted successfully.";
     } else {

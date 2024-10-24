@@ -85,17 +85,15 @@ if (isset($_POST['delete'])) {
         $working =[]; // store uncompleted tasks
         $completed = []; // store completed tasks
 
-
         //iterate the results to split on the page
         foreach ($result as $row) {
             if ($row['complete'] == "n") {
-                echo $row['complete'];
                 $working[] = $row;
             } elseif ($row['complete'] == "y") {
-                echo $row['complete'];
                 $completed[] = $row;
             }
         }
+        echo "<h4>Quick Stats: Total Tasks: ".count($result)." Current Tasks: ".count($working)." Completed Tasks: ".count($completed)." </h4>";
 
         echo "<hr>";
         echo "<br>";
@@ -109,7 +107,6 @@ if (isset($_POST['delete'])) {
                 echo "<input type='hidden' name='tid' value='" . $row['taskid'] . "'>";
                 echo "<tr>";
                 echo "<td>Task: " . $row['task'] . "</td>";
-                echo "<td>Complete: " . $row['complete'] . "</td>";
                 echo "<td>Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "</td>";
                 echo "<td><input type='submit' name='Complete' value='Complete'></td>";
                 echo "<td><input type='submit' name='Delete' value='Delete'></td>";
@@ -131,7 +128,6 @@ if (isset($_POST['delete'])) {
             echo "<input type='hidden' name='tid' value='" . $row['taskid'] . "'>";
             echo "<tr>";
             echo "<td>Task: " . $row['task'] . "</td>";
-            echo "<td>Complete: " . $row['complete'] . "</td>";
             echo "<td>Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "</td>";
             echo "<td><input type='submit' name='Uncomplete' value='Uncomplete'></td>";
             echo "<td><input type='submit' name='Delete' value='Delete'></td>";

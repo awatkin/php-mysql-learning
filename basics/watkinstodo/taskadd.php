@@ -3,26 +3,11 @@
 session_start();
 
 include "db_connect.php"; //brings in the database connect
-
-echo $_SESSION["lid"];
-
+include "auditlogger.php";
 
 if($_SESSION["lid"]==-1) {
-    $logtime = date("U");
-    $act = "fta";  //failed to create new task
 
-    $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
-
-    $stmt = $conn->prepare($sql); //prepare to sql
-
-    $stmt->bindParam(1,$_SESSION["userid"]);  //bind parameters for security
-
-    $stmt->bindParam(2, $logtime);
-
-    $stmt->bindParam(3,$act);
-
-    $stmt->execute();  //run the query to insert
-
+    auditor($_POST["userid"],"fta");
     header("refresh:3; url=listadmin.php");
     echo "<link rel='stylesheet' href='styles.css'>";
     echo "Task failed to be created";
@@ -43,15 +28,8 @@ if($_SESSION["lid"]==-1) {
     $stmt->execute();  //run the query to insert
 
     //creates an audit log trail
-    $act = "cta";  //create a new list
-    $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
-    $stmt = $conn->prepare($sql); //prepare to sql
-    $stmt->bindParam(1,$_SESSION["userid"]);  //bind parameters for security
-    $stmt->bindParam(2, $logtime);
-    $stmt->bindParam(3,$act);
-    $stmt->execute();  //run the query to insert
 
-
+    auditor($_SESSION["userid"],"cta");
     header("refresh:2; url=listadmin.php");
     echo "<link rel='stylesheet' href='styles.css'>";
     echo "task created";
@@ -59,17 +37,4 @@ if($_SESSION["lid"]==-1) {
 
 }
 
-/*
-echo $epoct;
-echo "<br> time formatted";
-echo date("Y-m-d H:i:s", $epoct);
-echo "<br>";
-echo $_POST['task'];
-echo "<br>";
-echo $_POST['time'];
-echo "<br>";
-echo $_POST['date'];
-echo "<br>";
-echo $_SESSION['lid'];
-*/
 ?>

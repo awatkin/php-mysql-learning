@@ -1,6 +1,7 @@
 <?php
 
 include "db_connect.php";  //connect to the database
+include "quickstats.php";
 
 session_start();
 
@@ -69,22 +70,21 @@ echo "<hr>";
 echo "<br>";
 
 $sql = "SELECT listid, listname, date FROM lists WHERE userid = ?"; //set up the sql statement
-
 $stmt = $conn->prepare($sql); //prepares
-
 $stmt->bindParam(1,$_SESSION['userid']);  //binds the parameters to execute
-
 $stmt->execute(); //run the sql code
-
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);  //brings back results
+
 
 echo "<table>";
     foreach ($result as $row) {
+        $qs = qstat($row['listid']);
         echo "<form action='listadmin.php' method='POST' name='form_".$row['listid']."'>";
         echo "<input type='hidden' name='lid' value='".$row['listid']."'>";
         echo "<tr>";
         echo "<td>List Name: ".$row['listname']."</td>";
         echo "<td>Date: ".date("Y-m-d H:i:s", $row['date'])."</td>";
+        echo "<td>Total: ".$qs[0]." Current: ".$qs[1]." Completed: ".$qs[2]."</td>";
         echo "<td><input type='submit' name='edit' value='Edit'></td>";
         echo "<td><input type='submit' name='delete' value='Delete'></td>";
         echo "</tr>";

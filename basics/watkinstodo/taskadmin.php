@@ -2,6 +2,7 @@
 session_start();
 
 include "db_connect.php";  //connect to the database
+include "auditlogger.php";
 
 
 if (isset($_POST['Delete'])) {
@@ -17,6 +18,7 @@ if (isset($_POST['Delete'])) {
         if ($affectedRows > 0) {
             header("refresh:2; url=listadmin.php");
             echo "<link rel='stylesheet' href='styles.css'>";
+            auditor($_SESSION["userid"], "dta");
             echo "Task deleted successfully.";
         } else {
             echo "No rows were affected.";
@@ -40,6 +42,7 @@ if (isset($_POST['Delete'])) {
         if ($affectedRows > 0) {
             header("refresh:2; url=listadmin.php");
             echo "<link rel='stylesheet' href='styles.css'>";
+            auditor($_SESSION["userid"], "ccta");
             echo "Task updated to completed.";
         } else {
             echo "No rows were affected.";
@@ -62,6 +65,7 @@ if (isset($_POST['Delete'])) {
         if ($affectedRows > 0) {
             header("refresh:2; url=listadmin.php");
             echo "<link rel='stylesheet' href='styles.css'>";
+            auditor($_SESSION["userid"], "ucta");
             echo "Task updated to not complete.";
         } else {
             echo "No rows were affected.";

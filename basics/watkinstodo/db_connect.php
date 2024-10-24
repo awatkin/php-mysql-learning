@@ -13,6 +13,8 @@
 done as an include file to keep it slightly more secure and easier to maintain
 than just dumping it in each file */
 
+
+
 $servername = "localhost";  //sets servername
 
 $username = "todolist";
