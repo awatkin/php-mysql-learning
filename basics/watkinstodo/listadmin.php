@@ -88,9 +88,11 @@ if (isset($_POST['delete'])) {
 
         //iterate the results to split on the page
         foreach ($result as $row) {
-            if ($row['completed'] == 0) {
+            if ($row['complete'] == "n") {
+                echo $row['complete'];
                 $working[] = $row;
-            } elseif ($row['completed'] == 1) {
+            } elseif ($row['complete'] == "y") {
+                echo $row['complete'];
                 $completed[] = $row;
             }
         }
@@ -104,18 +106,40 @@ if (isset($_POST['delete'])) {
             foreach ($working as $row) {
 
                 echo "<form action='taskadmin.php' method='POST' name='form_" . $row['taskid'] . "'>";
-
-                echo "<input type='hidden' name='lid' value='" . $row['taskid'] . "'>";
-
+                echo "<input type='hidden' name='tid' value='" . $row['taskid'] . "'>";
                 echo "<tr>";
                 echo "<td>Task: " . $row['task'] . "</td>";
+                echo "<td>Complete: " . $row['complete'] . "</td>";
                 echo "<td>Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "</td>";
-                echo "<td><input type='submit' name='complete' value='Complete'></td>";
-                echo "<td><input type='submit' name='delete' value='Delete'></td>";
+                echo "<td><input type='submit' name='Complete' value='Complete'></td>";
+                echo "<td><input type='submit' name='Delete' value='Delete'></td>";
                 echo "</tr>";
 
                 echo "</form>";
             }
+        echo "</table>";
+
+        echo "<hr>";
+        echo "<br>";
+        echo "<h4> Completed Tasks</h4>";
+        echo "<br>";
+
+        echo "<table>";
+        foreach ($completed as $row) {
+
+            echo "<form action='taskadmin.php' method='POST' name='form_" . $row['taskid'] . "'>";
+            echo "<input type='hidden' name='tid' value='" . $row['taskid'] . "'>";
+            echo "<tr>";
+            echo "<td>Task: " . $row['task'] . "</td>";
+            echo "<td>Complete: " . $row['complete'] . "</td>";
+            echo "<td>Due Date: " . date("Y-m-d H:i:s", $row['duedate']) . "</td>";
+            echo "<td><input type='submit' name='Uncomplete' value='Uncomplete'></td>";
+            echo "<td><input type='submit' name='Delete' value='Delete'></td>";
+            echo "</tr>";
+
+            echo "</form>";
+        }
+        echo "</table>";
 
     } else {
         echo "There are no tasks to display here right now!";

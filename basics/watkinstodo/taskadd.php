@@ -32,7 +32,7 @@ if($_SESSION["lid"]==-1) {
     $times = $_POST['date']." ".$_POST['time'];
     $epoct = strtotime($times);
     $logtime = date("U");
-    $complete=0;
+    $complete="n";
     $sql = "INSERT INTO tasks (listid, task, complete, date, duedate) VALUES (?, ?, ?, ?, ?)";  //prepare the sql to be sent
     $stmt = $conn->prepare($sql); //prepare to sql
     $stmt->bindParam(1,$_SESSION["lid"]);  //bind parameters for security
