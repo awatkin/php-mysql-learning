@@ -2,6 +2,8 @@
 
 include "db_connect.php";  //connect to the database
 
+include "auditlogger.php";
+
 try {  //try this code, catch errors
 
     session_start();  //connect to session data for logged in
@@ -32,21 +34,7 @@ try {  //try this code, catch errors
 
             $_SESSION["ssnlogin"] = true;  // sets up the session variables
 
-            $act = "log";
-
-            $logtime = date("U");
-
-            $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
-
-            $stmt = $conn->prepare($sql); //prepare to sql
-
-            $stmt->bindParam(1,$_SESSION["userid"]);  //bind parameters for security
-
-            $stmt->bindParam(2, $logtime);
-
-            $stmt->bindParam(3,$act);
-
-            $stmt->execute();  //run the query to insert
+            auditor($_SESSION["userid"],"log");
 
             header("location:list.php");  //redirect on success
 
@@ -54,21 +42,7 @@ try {  //try this code, catch errors
 
         } else{
 
-            $act = "flog";  //failed login abbreviated
-
-            $logtime = date("U");  // captures epoch time
-
-            $sql = "INSERT INTO audit (userid, date, activity) VALUES (?, ?, ?)";  //prepare the sql to be sent
-
-            $stmt = $conn->prepare($sql); //prepare to sql
-
-            $stmt->bindParam(1,$_SESSION["userid"]);  //bind parameters for security
-
-            $stmt->bindParam(2, $logtime);
-
-            $stmt->bindParam(3,$act);
-
-            $stmt->execute();  //run the query to insert
+            auditor($_SESSION["userid"],"flog");
 
             session_destroy(); //if failed, kills session and error message
             header("refresh:4; url=login.php");
